@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RVTRAX — The Complete RV Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="light"]{
+  --bg:#f4f3ef;--sur:#f8f7f4;--sur2:#fafaf8;--suro:#eeece7;--suro2:#e8e5df;
+  --surd:#e0ddd7;--div:#d8d5cf;--bor:#ccc9c2;
+  --tx:#1e1c18;--txm:#6b6963;--txf:#b0ada7;--txi:#f8f7f4;
+  --pr:#b85c1a;--prh:#954a14;--pra:#723810;--prhl:#f0ddd1;
+  --ok:#2f7a3a;--okhl:#d4ead7;--wn:#b58900;--wnhl:#f5e8b0;
+  --er:#c0392b;--erhl:#f8d7d3;--tb:#e6f0fb;--tt:#1e5799;
+  --rsm:.375rem;--rmd:.5rem;--rlg:.75rem;--rxl:1rem;--rfl:9999px;
+  --shsm:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.05);
+  --shmd:0 4px 12px rgba(0,0,0,.09),0 2px 4px rgba(0,0,0,.06);
+  --shlg:0 12px 32px rgba(0,0,0,.12),0 4px 8px rgba(0,0,0,.07);
+  --tr:180ms cubic-bezier(.16,1,.3,1);
+  --fd:'Instrument Serif',Georgia,serif;--fb:'Inter','Helvetica Neue',sans-serif;
+  --xs:clamp(.75rem,.7rem + .25vw,.875rem);--sm:clamp(.875rem,.8rem + .35vw,1rem);
+  --bs:clamp(1rem,.95rem + .25vw,1.125rem);--lg:clamp(1.125rem,1rem + .75vw,1.5rem);
+  --xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
+  --s8:2rem;--s10:2.5rem;--s12:3rem;--s16:4rem;
+  --sbw:240px;--tbh:60px;
+}
+[data-theme="dark"]{
+  --bg:#141210;--sur:#1a1815;--sur2:#1f1d1a;--suro:#242220;--suro2:#2a2825;
+  --surd:#322f2c;--div:#2e2c28;--bor:#3a3733;
+  --tx:#d4d1cc;--txm:#7a7772;--txf:#4e4c48;--txi:#1a1815;
+  --pr:#e07a3a;--prh:#cc6825;--pra:#b05820;--prhl:#3d2a1a;
+  --ok:#5db86a;--okhl:#1e3322;--wn:#e8c040;--wnhl:#332e10;
+  --er:#e05a4a;--erhl:#3a1c18;--tb:#1e2d3d;--tt:#7ab8e8;
+  --shsm:0 1px 3px rgba(0,0,0,.3);--shmd:0 4px 12px rgba(0,0,0,.4);--shlg:0 12px 32px rgba(0,0,0,.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--fb);font-size:var(--sm);color:var(--tx);background:var(--bg);min-height:100dvh;overflow-x:hidden}
+img{display:block;max-width:100%}button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:none}a{color:inherit;text-decoration:none}p{max-width:70ch}
+.shell{display:flex;min-height:100dvh}
+.sb{width:var(--sbw);min-height:100dvh;background:var(--sur);border-right:1px solid var(--bor);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100}
+.mc{margin-left:var(--sbw);flex:1;display:flex;flex-direction:column}
+.topbar{height:var(--tbh);background:var(--sur);border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between;padding:0 var(--s6);position:sticky;top:0;z-index:50}
+.pc{padding:var(--s8);flex:1}
+/* sidebar */
+.sbl{padding:var(--s5);border-bottom:1px solid var(--bor);display:flex;align-items:center;gap:var(--s3)}
+.lname{font-family:var(--fd);font-size:1.3rem;color:var(--pr);letter-spacing:-.01em;line-height:1;font-style:italic}
+.ltag{font-size:var(--xs);color:var(--txm);margin-top:1px}
+.up{padding:var(--s3) var(--s4);margin:var(--s3);background:var(--suro);border-radius:var(--rlg);border:1px solid var(--bor);cursor:pointer;transition:background var(--tr)}
+.up:hover{background:var(--suro2)}
+.upl{font-size:var(--xs);color:var(--txm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--s1)}
+.upn{font-size:var(--sm);font-weight:600}.ups{font-size:var(--xs);color:var(--txm);margin-top:1px}
+.ns{padding:var(--s2) var(--s3)}
+.nsl{font-size:var(--xs);color:var(--txf);text-transform:uppercase;letter-spacing:.08em;padding:var(--s2);margin-bottom:var(--s1)}
+.ni{display:flex;align-items:center;gap:var(--s3);padding:var(--s2) var(--s3);border-radius:var(--rmd);color:var(--txm);font-size:var(--sm);transition:all var(--tr);cursor:pointer;margin-bottom:2px}
+.ni:hover{background:var(--suro);color:var(--tx)}.ni.act{background:var(--prhl);color:var(--pr);font-weight:500}
+.ni svg{flex-shrink:0;opacity:.7}.ni.act svg{opacity:1}
+.nbg{margin-left:auto;background:var(--pr);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:var(--rfl)}
+.nbg.w{background:var(--wn);color:#1a1600}
+.sf{margin-top:auto;padding:var(--s4);border-top:1px solid var(--bor)}
+.up2{display:flex;align-items:center;gap:var(--s3);padding:var(--s2);border-radius:var(--rmd);cursor:pointer;transition:background var(--tr)}
+.up2:hover{background:var(--suro)}
+.av{width:32px;height:32px;border-radius:var(--rfl);background:var(--pr);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+/* topbar */
+.tbr{display:flex;align-items:center;gap:var(--s3)}
+.tbtn{width:36px;height:36px;border-radius:var(--rmd);display:flex;align-items:center;justify-content:center;color:var(--txm);transition:all var(--tr);position:relative;cursor:pointer}
+.tbtn:hover{background:var(--suro);color:var(--tx)}
+.ndot{position:absolute;top:7px;right:7px;width:7px;height:7px;background:var(--pr);border-radius:var(--rfl);border:2px solid var(--sur)}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s4);border-radius:var(--rmd);font-size:var(--sm);font-weight:500;transition:all var(--tr);white-space:nowrap;cursor:pointer}
+.bp{background:var(--pr);color:#fff;border:none}.bp:hover{background:var(--prh)}
+.bss{background:var(--suro);color:var(--tx);border:1px solid var(--bor)}.bss:hover{background:var(--suro2)}
+.bgh{color:var(--txm);border:none}.bgh:hover{background:var(--suro);color:var(--tx)}
+.bsm{padding:var(--s1) var(--s3);font-size:var(--xs)}
+/* cards */
+.card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rxl);padding:var(--s6);box-shadow:var(--shsm)}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s5)}
+.ct{font-size:var(--bs);font-weight:600}.cst{font-size:var(--xs);color:var(--txm);margin-top:var(--s1)}
+/* kpi */
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s4);margin-bottom:var(--s6)}
+.kc{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rxl);padding:var(--s5);box-shadow:var(--shsm)}
+.kl{font-size:var(--xs);color:var(--txm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--s2)}
+.kv{font-size:var(--xl);font-family:var(--fd);color:var(--tx);line-height:1}
+.ktr{font-size:var(--xs);margin-top:var(--s2)}
+.ktr.up{color:var(--ok)}.ktr.wn{color:var(--wn)}
+/* progress */
+.pb{height:6px;background:var(--suro);border-radius:var(--rfl);overflow:hidden;margin-top:var(--s2)}
+.pf{height:100%;border-radius:var(--rfl);background:var(--pr)}.pf.g{background:var(--ok)}.pf.w{background:var(--wn)}
+/* badges */
+.bge{display:inline-flex;align-items:center;padding:2px var(--s2);border-radius:var(--rfl);font-size:var(--xs);font-weight:500}
+.bg-g{background:var(--okhl);color:var(--ok)}.bg-o{background:var(--prhl);color:var(--pr)}
+.bg-y{background:var(--wnhl);color:var(--wn)}.bg-r{background:var(--erhl);color:var(--er)}
+.bg-b{background:var(--tb);color:var(--tt)}.bg-n{background:var(--suro);color:var(--txm)}
+/* table */
+.dt{width:100%;border-collapse:collapse}
+.dt th{font-size:var(--xs);text-transform:uppercase;letter-spacing:.06em;color:var(--txm);padding:var(--s3) var(--s4);text-align:left;border-bottom:1px solid var(--bor);font-weight:500}
+.dt td{padding:var(--s3) var(--s4);font-size:var(--sm);border-bottom:1px solid var(--div);vertical-align:middle}
+.dt tr:last-child td{border-bottom:none}.dt tr:hover td{background:var(--suro)}
+/* recall banner */
+.rcb{background:var(--erhl);border:1px solid var(--er);border-radius:var(--rlg);padding:var(--s4) var(--s5);display:flex;align-items:flex-start;gap:var(--s4);margin-bottom:var(--s6)}
+.rcb svg{color:var(--er);flex-shrink:0;margin-top:2px}
+.rct{font-size:var(--sm);font-weight:600;color:var(--er);margin-bottom:var(--s1)}
+/* tabs */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--bor);margin-bottom:var(--s6);flex-wrap:wrap}
+.tab{padding:var(--s3) var(--s5);font-size:var(--sm);color:var(--txm);cursor:pointer;border-bottom:2px solid transparent;transition:all var(--tr);margin-bottom:-1px}
+.tab:hover{color:var(--tx)}.tab.act{color:var(--pr);border-bottom-color:var(--pr);font-weight:500}
+/* grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s5)}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s4)}
+/* enc cards */
+.ec{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rxl);overflow:hidden;box-shadow:var(--shsm);transition:box-shadow var(--tr),transform var(--tr);cursor:pointer}
+.ec:hover{box-shadow:var(--shmd);transform:translateY(-2px)}
+.ec-img{width:100%;height:140px;background:linear-gradient(135deg,var(--suro) 0%,var(--suro2) 100%);display:flex;align-items:center;justify-content:center;font-size:3rem}
+.ec-bd{padding:var(--s4)}.ec-mk{font-size:var(--xs);color:var(--txm);text-transform:uppercase;letter-spacing:.06em}
+.ec-mo{font-size:var(--sm);font-weight:600;color:var(--tx);margin-top:var(--s1)}
+.ec-mt{display:flex;gap:var(--s2);margin-top:var(--s3);flex-wrap:wrap}
+/* mod cards */
+.mc2{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rlg);padding:var(--s4);box-shadow:var(--shsm);cursor:pointer;transition:box-shadow var(--tr);margin-bottom:var(--s3)}
+.mc2:hover{box-shadow:var(--shmd)}
+.mc2h{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:var(--s3)}
+.mc2t{font-size:var(--sm);font-weight:600}.mc2m{font-size:var(--xs);color:var(--txm);margin-top:var(--s1)}
+.vr{display:flex;align-items:center;gap:var(--s3)}
+.vb{display:flex;align-items:center;gap:var(--s1);font-size:var(--xs);color:var(--txm);padding:4px var(--s2);border-radius:var(--rsm);border:1px solid var(--bor);transition:all var(--tr);cursor:pointer}
+.vb:hover{background:var(--suro);color:var(--tx)}.vb.uv{background:var(--okhl);color:var(--ok);border-color:var(--ok)}
+/* timeline */
+.tl{position:relative;padding-left:var(--s8)}
+.tl::before{content:'';position:absolute;left:12px;top:6px;bottom:6px;width:2px;background:var(--bor)}
+.tli{position:relative;margin-bottom:var(--s5)}
+.tld{position:absolute;left:calc(-1*var(--s8) + 8px);top:4px;width:10px;height:10px;border-radius:var(--rfl);background:var(--pr);border:2px solid var(--sur)}
+.tld.g{background:var(--ok)}
+.tld{font-style:normal}.tlid{font-size:var(--xs);color:var(--txm);margin-bottom:var(--s1)}
+.tlit{font-size:var(--sm);font-weight:500}.tlis{font-size:var(--xs);color:var(--txm);margin-top:2px}
+/* doc items */
+.di{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) var(--s4);border-radius:var(--rmd);border:1px solid var(--bor);margin-bottom:var(--s2);background:var(--sur);cursor:pointer;transition:background var(--tr)}
+.di:hover{background:var(--suro)}
+.dic{width:36px;height:36px;border-radius:var(--rmd);background:var(--suro);display:flex;align-items:center;justify-content:center;color:var(--txm);flex-shrink:0}
+.dn{font-size:var(--sm);font-weight:500}.dm{font-size:var(--xs);color:var(--txm);margin-top:2px}
+.dir{margin-left:auto;display:flex;align-items:center;gap:var(--s2)}
+/* search */
+.sbar{display:flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s3);background:var(--suro);border:1px solid var(--bor);border-radius:var(--rmd);color:var(--txm);font-size:var(--sm);width:260px}
+.sbar input{border:none;background:transparent;flex:1;outline:none;color:var(--tx);font-size:var(--sm)}
+.sbar input::placeholder{color:var(--txf)}
+/* spec grid */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:var(--s1)}
+.sr2{display:flex;justify-content:space-between;align-items:center;padding:var(--s2) var(--s3);border-radius:var(--rsm)}
+.sr2:nth-child(odd){background:var(--suro)}
+.sk{font-size:var(--xs);color:var(--txm)}.sv{font-size:var(--xs);color:var(--tx);font-weight:500;text-align:right}
+/* upcoming */
+.ui{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) 0;border-bottom:1px solid var(--div)}
+.ui:last-child{border-bottom:none}.ud{width:10px;height:10px;border-radius:var(--rfl);flex-shrink:0}
+.utx{font-size:var(--sm);color:var(--tx);flex:1}.udue{font-size:var(--xs);color:var(--txm)}
+.udue.ov{color:var(--er);font-weight:500}
+/* wiki header */
+.wh{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rxl);overflow:hidden;margin-bottom:var(--s6)}
+.whb{height:160px;background:linear-gradient(135deg,#2a1e0e 0%,#4a3420 40%,#1e2a2e 100%);display:flex;align-items:flex-end;padding:var(--s6)}
+.whr{font-family:var(--fd);font-size:var(--xl);color:#fff;font-style:italic}
+.whbd{padding:var(--s5) var(--s6)}.whm{display:flex;gap:var(--s6);flex-wrap:wrap}
+.wml{font-size:var(--xs);color:var(--txm);text-transform:uppercase;letter-spacing:.06em}
+.wmv{font-size:var(--sm);font-weight:600;color:var(--tx);margin-top:2px}
+/* pages */
+.pg{display:none}.pg.act{display:block}
+/* modal */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center}
+.mo.open{display:flex}
+.md{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rxl);width:min(92vw,560px);max-height:85vh;overflow-y:auto;box-shadow:var(--shlg)}
+.mh2{padding:var(--s5) var(--s6);border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between}
+.mt2{font-size:var(--bs);font-weight:600}
+.mcl{width:32px;height:32px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;color:var(--txm);cursor:pointer;transition:all var(--tr)}
+.mcl:hover{background:var(--suro)}.mbd{padding:var(--s6)}
+.fg{margin-bottom:var(--s5)}
+.fl2{display:block;font-size:var(--xs);text-transform:uppercase;letter-spacing:.06em;color:var(--txm);margin-bottom:var(--s2);font-weight:500}
+.fi{width:100%;padding:var(--s3);background:var(--suro);border:1px solid var(--bor);border-radius:var(--rmd);font-size:var(--sm);transition:border-color var(--tr)}
+.fi:focus{outline:none;border-color:var(--pr)}.fi::placeholder{color:var(--txf)}
+select.fi{cursor:pointer}.fr{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.mft{padding:var(--s4) var(--s6);border-top:1px solid var(--bor);display:flex;justify-content:flex-end;gap:var(--s3)}
+/* toast */
+.tst{position:fixed;bottom:var(--s6);right:var(--s6);background:var(--tx);color:var(--bg);padding:var(--s3) var(--s5);border-radius:var(--rlg);font-size:var(--sm);box-shadow:var(--shlg);z-index:300;transform:translateY(20px);opacity:0;transition:all .3s ease;pointer-events:none;max-width:360px}
+.tst.show{transform:translateY(0);opacity:1}
+/* landing */
+.lhero{background:linear-gradient(160deg,#1a130a 0%,#0e1a1f 50%,#1a0e0e 100%);min-height:100vh;display:flex;flex-direction:column}
+.lnav{display:flex;align-items:center;justify-content:space-between;padding:var(--s5) var(--s10)}
+.lnl{display:flex;align-items:center;gap:var(--s6)}
+.lnl a{font-size:var(--sm);color:rgba(255,255,255,.6);transition:color var(--tr);cursor:pointer}
+.lnl a:hover{color:rgba(255,255,255,.9)}
+.hcont{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:var(--s16) var(--s8)}
+.heye{font-size:var(--xs);text-transform:uppercase;letter-spacing:.1em;color:var(--pr);margin-bottom:var(--s4);font-weight:600}
+.htit{font-family:var(--fd);font-size:clamp(2.5rem,1rem + 5vw,5rem);color:#fff;line-height:1.05;max-width:14ch;margin-bottom:var(--s6);font-style:italic}
+.htit span{color:var(--pr)}
+.hdesc{font-size:var(--bs);color:rgba(255,255,255,.6);max-width:56ch;margin-bottom:var(--s8);line-height:1.7}
+.hcr{display:flex;align-items:center;gap:var(--s4);flex-wrap:wrap;justify-content:center}
+.hcp{background:var(--pr);color:#fff;padding:var(--s3) var(--s8);border-radius:var(--rfl);font-size:var(--sm);font-weight:600;cursor:pointer;transition:all var(--tr);border:none}
+.hcp:hover{background:var(--prh);transform:translateY(-1px)}
+.hcs{color:rgba(255,255,255,.7);font-size:var(--sm);cursor:pointer;display:flex;align-items:center;gap:var(--s2);background:none;border:none;transition:color var(--tr)}
+.hcs:hover{color:#fff}
+.fps{display:flex;gap:var(--s3);margin-top:var(--s12);flex-wrap:wrap;justify-content:center}
+.fp{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--rfl);padding:var(--s2) var(--s5);font-size:var(--xs);color:rgba(255,255,255,.5)}
+.fp span{color:var(--pr);font-weight:600;margin-right:var(--s1)}
+@media(max-width:900px){.kg{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr}.sb{transform:translateX(-100%)}.sb.open{transform:translateX(0)}.mc{margin-left:0}}
+@media(max-width:600px){.pc{padding:var(--s4)}.sbar{width:160px}}
+</style>
+</head>
+<body>
+<!-- LANDING -->
+<div id="land">
+<div class="lhero">
+<nav class="lnav">
+  <div style="display:flex;align-items:center;gap:12px;cursor:pointer" onclick="go()">
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="8" fill="#b85c1a"/><rect x="4" y="10" width="20" height="12" rx="2" fill="white" opacity=".95"/><rect x="24" y="14" width="8" height="8" rx="2" fill="white" opacity=".7"/><circle cx="9" cy="23" r="2.5" fill="#b85c1a" stroke="white" stroke-width="1.5"/><circle cx="27" cy="23" r="2.5" fill="#b85c1a" stroke="white" stroke-width="1.5"/><rect x="7" y="13" width="6" height="5" rx="1" fill="#b85c1a" opacity=".5"/><rect x="15" y="13" width="6" height="5" rx="1" fill="#b85c1a" opacity=".5"/></svg>
+    <span style="font-family:'Instrument Serif',Georgia,serif;font-size:1.7rem;color:#e07a3a;font-style:italic">RVTRAX</span>
+  </div>
+  <div class="lnl">
+    <a onclick="go();sp('enc')">Encyclopedia</a>
+    <a onclick="tst('Mod Registry — Phase 2')">Modifications</a>
+    <a onclick="tst('Pricing — coming soon')">Pricing</a>
+    <button class="btn bss bsm" style="border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7);background:rgba(255,255,255,.06)" onclick="go()">Sign In</button>
+    <button class="btn bp bsm" onclick="go()">Start Free →</button>
+  </div>
+</nav>
+<div class="hcont">
+  <div class="heye">Every Mile. Every Mod. Every Document.</div>
+  <h1 class="htit">The Complete Intelligence Platform for Your <span>RV</span></h1>
+  <p class="hdesc">RVTRAX combines a VIN-anchored maintenance vault, an RV manufacturer encyclopedia, and a community modification registry — the only platform built specifically for motorcoach owners.</p>
+  <div class="hcr">
+    <button class="hcp" onclick="go()">Register Your Rig Free</button>
+    <button class="hcs" onclick="go();sp('enc')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>Browse the Encyclopedia
+    </button>
+  </div>
+  <div class="fps">
+    <div class="fp"><span>01</span>VIN-Anchored Maintenance Vault</div>
+    <div class="fp"><span>02</span>RV Manufacturer Encyclopedia</div>
+    <div class="fp"><span>03</span>Modification Registry</div>
+    <div class="fp"><span>04</span>NHTSA Recall Alerts</div>
+    <div class="fp"><span>05</span>Resale Health Export</div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+<div class="shell">
+<aside class="sb" id="sidebar">
+  <div class="sbl">
+    <svg width="30" height="30" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="8" fill="#b85c1a"/><rect x="4" y="10" width="20" height="12" rx="2" fill="white" opacity=".95"/><rect x="24" y="14" width="8" height="8" rx="2" fill="white" opacity=".7"/><circle cx="9" cy="23" r="2.5" fill="#b85c1a" stroke="white" stroke-width="1.5"/><circle cx="27" cy="23" r="2.5" fill="#b85c1a" stroke="white" stroke-width="1.5"/><rect x="7" y="13" width="6" height="5" rx="1" fill="#b85c1a" opacity=".5"/><rect x="15" y="13" width="6" height="5" rx="1" fill="#b85c1a" opacity=".5"/></svg>
+    <div><div class="lname">RVTRAX</div><div class="ltag">RV Intelligence Platform</div></div>
+  </div>
+  <div class="up" onclick="sp('dash')">
+    <div class="upl">Active Unit</div>
+    <div class="upn">2019 Tiffin Allegro Bus 45OPP</div>
+    <div class="ups">VIN: 5B4MP67G9KJ123456 · Class A Diesel</div>
+  </div>
+  <nav class="ns">
+    <div class="nsl">My Rig</div>
+    <div class="ni act" id="n-dash" onclick="sp('dash')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
+    <div class="ni" id="n-maint" onclick="sp('maint')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Maintenance Log<span class="nbg w">2</span></div>
+    <div class="ni" id="n-docs" onclick="sp('docs')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>Document Vault</div>
+    <div class="ni" id="n-rec" onclick="sp('rec')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Recalls &amp; Safety<span class="nbg">1</span></div>
+    <div class="ni" onclick="tst('My Modifications — Phase 2 feature')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>My Modifications<span class="bge bg-n" style="margin-left:auto;font-size:10px">Soon</span></div>
+  </nav>
+  <nav class="ns">
+    <div class="nsl">Community</div>
+    <div class="ni" id="n-enc" onclick="sp('enc')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>RV Encyclopedia</div>
+    <div class="ni" onclick="tst('Mod Registry — Phase 2 feature')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>Mod Registry</div>
+  </nav>
+  <div class="sf">
+    <div class="up2"><div class="av">EG</div><div><div style="font-size:var(--sm);font-weight:500">Eric Garrison</div><div style="font-size:var(--xs);color:var(--txm)">Owner Plan · 1 Unit</div></div></div>
+  </div>
+</aside>
+<div class="mc">
+  <header class="topbar">
+    <div style="font-size:var(--bs);font-weight:600" id="ptb">Dashboard</div>
+    <div class="tbr">
+      <div class="sbar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search rigs, mods, docs..."></div>
+      <div class="tbtn" onclick="toggleTheme()"><svg id="thico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+      <div class="tbtn" onclick="sp('rec')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="ndot"></div></div>
+      <button class="btn bp bsm" onclick="om('lm')">+ Log Service</button>
+    </div>
+  </header>
+  <div class="pc">
+
+<!-- DASHBOARD -->
+<div class="pg act" id="p-dash">
+  <div class="rcb">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <div><div class="rct">Open NHTSA Recall — Campaign #22V-547</div><div style="font-size:var(--xs);color:var(--txm)">2019 Tiffin Allegro Bus · Chassis Air Brake System · Remedy available. <span style="color:var(--pr);cursor:pointer" onclick="sp('rec')">View details →</span></div></div>
+  </div>
+  <div class="kg">
+    <div class="kc"><div class="kl">Total Service Events</div><div class="kv">47</div><div class="ktr up">↑ 4 logged this year</div></div>
+    <div class="kc"><div class="kl">Documents Stored</div><div class="kv">23</div><div class="ktr up">All documents current</div></div>
+    <div class="kc"><div class="kl">Chassis Miles</div><div class="kv">82,451</div><div class="ktr wn">⚠ Oil change at 85,000 mi</div></div>
+    <div class="kc"><div class="kl">Generator Hours</div><div class="kv">1,204</div><div class="ktr up">Service at 1,300 hrs</div></div>
+  </div>
+  <div class="g2" style="margin-bottom:var(--s5)">
+    <div class="card">
+      <div class="ch"><div><div class="ct">Upcoming Maintenance</div><div class="cst">Next 90 days &amp; mileage</div></div><button class="btn bss bsm" onclick="om('lm')">+ Add</button></div>
+      <div class="ui"><div class="ud" style="background:var(--er)"></div><div class="utx">Engine Oil &amp; Filter Change</div><div class="udue ov">Due at 85,000 mi</div></div>
+      <div class="ui"><div class="ud" style="background:var(--wn)"></div><div class="utx">Roof Recoat (EPDM)</div><div class="udue">Jul 15, 2026</div></div>
+      <div class="ui"><div class="ud" style="background:var(--wn)"></div><div class="utx">Generator Service (100hr)</div><div class="udue">At 1,300 hrs</div></div>
+      <div class="ui"><div class="ud" style="background:var(--ok)"></div><div class="utx">Slideout Seal Inspection</div><div class="udue">Aug 30, 2026</div></div>
+      <div class="ui"><div class="ud" style="background:var(--ok)"></div><div class="utx">Air Brake Inspection</div><div class="udue">Sep 14, 2026</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div><div class="ct">Recent Activity</div><div class="cst">Service history</div></div><span style="font-size:var(--xs);color:var(--txm);cursor:pointer" onclick="sp('maint')">View all →</span></div>
+      <div class="tl">
+        <div class="tli"><div class="tld g"></div><div class="tlid">Jun 12, 2026</div><div class="tlit">Tire Rotation &amp; Pressure Check</div><div class="tlis">All 6 tires · Road Runner Tire, Albuquerque NM</div></div>
+        <div class="tli"><div class="tld g"></div><div class="tlid">May 03, 2026</div><div class="tlit">Diesel Exhaust Fluid Refill</div><div class="tlis">12 gallons · Self-service</div></div>
+        <div class="tli"><div class="tld"></div><div class="tlid">Mar 28, 2026</div><div class="tlit">Leveling System Service</div><div class="tlis">HWH hydraulic fluid · Tiffin Red Bay · $340</div></div>
+        <div class="tli"><div class="tld g"></div><div class="tlid">Feb 14, 2026</div><div class="tlit">Chassis Battery Replacement</div><div class="tlis">2× Optima Group 31 · $490</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ct">System Health Overview</div></div>
+    <div class="g3">
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:var(--s1)"><span style="font-size:var(--xs);color:var(--txm)">Engine / Drivetrain</span><span style="font-size:var(--xs);font-weight:600;color:var(--ok)">Good</span></div><div class="pb"><div class="pf g" style="width:82%"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:var(--s1)"><span style="font-size:var(--xs);color:var(--txm)">Roof / Exterior Seals</span><span style="font-size:var(--xs);font-weight:600;color:var(--wn)">Due Soon</span></div><div class="pb"><div class="pf w" style="width:55%"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:var(--s1)"><span style="font-size:var(--xs);color:var(--txm)">Electrical / Solar</span><span style="font-size:var(--xs);font-weight:600;color:var(--ok)">Good</span></div><div class="pb"><div class="pf g" style="width:91%"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:var(--s1)"><span style="font-size:var(--xs);color:var(--txm)">Plumbing / Water</span><span style="font-size:var(--xs);font-weight:600;color:var(--ok)">Good</span></div><div class="pb"><div class="pf g" style="width:78%"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:var(--s1)"><span style="font-size:var(--xs);color:var(--txm)">HVAC / Climate</span><span style="font-size:var(--xs);font-weight:600;color:var(--ok)">Good</span></div><div class="pb"><div class="pf g" style="width:87%"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:var(--s1)"><span style="font-size:var(--xs);color:var(--txm)">Slides / Leveling</span><span style="font-size:var(--xs);font-weight:600;color:var(--pr)">Serviced</span></div><div class="pb"><div class="pf" style="width:93%"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAINTENANCE LOG -->
+<div class="pg" id="p-maint">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s6)">
+    <div><h1 style="font-size:var(--xl);font-family:var(--fd);font-style:italic">Maintenance Log</h1><p style="font-size:var(--xs);color:var(--txm);margin-top:var(--s1)">2019 Tiffin Allegro Bus 45OPP · 82,451 miles</p></div>
+    <div style="display:flex;gap:var(--s3)"><button class="btn bss bsm" onclick="tst('Exporting Resale Health Report as PDF…')">⬇ Export Health Report</button><button class="btn bp bsm" onclick="om('lm')">+ Log Service</button></div>
+  </div>
+  <div class="tabs"><div class="tab act">All Events (47)</div><div class="tab">Engine / Chassis</div><div class="tab">Roof / Exterior</div><div class="tab">Electrical</div><div class="tab">Plumbing</div><div class="tab">Appliances</div></div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table class="dt">
+      <thead><tr><th>Date</th><th>Category</th><th>Service Performed</th><th>Odometer</th><th>Provider</th><th>Cost</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <tr style="cursor:pointer" onclick="tst('Detail view — next build')"><td style="color:var(--txm);white-space:nowrap">Jun 12, 2026</td><td><span class="bge bg-b">Chassis</span></td><td>Tire Rotation &amp; Pressure Equalization</td><td style="font-variant-numeric:tabular-nums">82,440</td><td>Road Runner Tire, ABQ NM</td><td>$180</td><td><span class="bge bg-g">✓ Done</span></td><td><button class="btn bgh bsm">···</button></td></tr>
+        <tr style="cursor:pointer" onclick="tst('Detail view — next build')"><td style="color:var(--txm);white-space:nowrap">May 03, 2026</td><td><span class="bge bg-b">Engine</span></td><td>Diesel Exhaust Fluid (DEF) Refill — 12 gal</td><td style="font-variant-numeric:tabular-nums">81,100</td><td>Self-service</td><td>$38</td><td><span class="bge bg-g">✓ Done</span></td><td><button class="btn bgh bsm">···</button></td></tr>
+        <tr style="cursor:pointer" onclick="tst('Detail view — next build')"><td style="color:var(--txm);white-space:nowrap">Mar 28, 2026</td><td><span class="bge bg-o">Slides</span></td><td>HWH Leveling System Hydraulic Fluid Service</td><td style="font-variant-numeric:tabular-nums">80,211</td><td>Tiffin Service Center, Red Bay AL</td><td>$340</td><td><span class="bge bg-g">✓ Done</span></td><td><button class="btn bgh bsm">···</button></td></tr>
+        <tr style="cursor:pointer" onclick="tst('Detail view — next build')"><td style="color:var(--txm);white-space:nowrap">Feb 14, 2026</td><td><span class="bge bg-b">Electrical</span></td><td>Chassis Battery Replacement (2× Optima G31)</td><td style="font-variant-numeric:tabular-nums">79,890</td><td>O'Reilly Auto Parts</td><td>$490</td><td><span class="bge bg-g">✓ Done</span></td><td><button class="btn bgh bsm">···</button></td></tr>
+        <tr style="cursor:pointer" onclick="tst('Detail view — next build')"><td style="color:var(--txm);white-space:nowrap">Dec 01, 2025</td><td><span class="bge bg-y">Roof</span></td><td>EPDM Roof Inspection &amp; Seam Re-sealing</td><td style="font-variant-numeric:tabular-nums">78,400</td><td>Camping World Service</td><td>$850</td><td><span class="bge bg-g">✓ Done</span></td><td><button class="btn bgh bsm">···</button></td></tr>
+        <tr style="cursor:pointer" onclick="tst('Detail view — next build')"><td style="color:var(--txm);white-space:nowrap">Oct 18, 2025</td><td><span class="bge bg-b">Engine</span></td><td>Cummins ISX12 Oil &amp; Filter Change</td><td style="font-variant-numeric:tabular-nums">77,500</td><td>Cummins RV Care, Nashville TN</td><td>$420</td><td><span class="bge bg-g">✓ Done</span></td><td><button class="btn bgh bsm">···</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DOCUMENTS -->
+<div class="pg" id="p-docs">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s6)">
+    <div><h1 style="font-size:var(--xl);font-family:var(--fd);font-style:italic">Document Vault</h1><p style="font-size:var(--xs);color:var(--txm);margin-top:var(--s1)">23 documents · Encrypted at rest · AWS S3</p></div>
+    <button class="btn bp bsm" onclick="tst('File upload UI — next build')">⬆ Upload Document</button>
+  </div>
+  <div class="tabs"><div class="tab act">All Documents</div><div class="tab">Titles &amp; Insurance</div><div class="tab">Warranties</div><div class="tab">Service Receipts</div><div class="tab">Manuals</div></div>
+  <div class="g2">
+    <div>
+      <div style="font-size:var(--xs);text-transform:uppercase;letter-spacing:.06em;color:var(--txm);margin-bottom:var(--s3)">Ownership &amp; Legal</div>
+      <div class="di"><div class="dic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div><div><div class="dn">Certificate of Title — NC</div><div class="dm">Uploaded Mar 2022 · PDF · 1.2 MB</div></div><div class="dir"><span class="bge bg-g">✓ Current</span></div></div>
+      <div class="di"><div class="dic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="dn">Progressive RV Insurance Policy</div><div class="dm">Policy #PRV-2024-44810 · Expires Dec 2026</div></div><div class="dir"><span class="bge bg-g">✓ Current</span></div></div>
+      <div class="di"><div class="dic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div><div class="dn">Extended Warranty — NVPS</div><div class="dm">Expires Aug 2027 · $0 deductible powertrain</div></div><div class="dir"><span class="bge bg-y">⚠ 14mo left</span></div></div>
+      <div style="font-size:var(--xs);text-transform:uppercase;letter-spacing:.06em;color:var(--txm);margin:var(--s5) 0 var(--s3)">Manuals &amp; Specs</div>
+      <div class="di"><div class="dic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div><div class="dn">Tiffin 2019 Owner's Manual</div><div class="dm">PDF · 284 pages · 18.4 MB</div></div><div class="dir"><button class="btn bgh bsm" onclick="tst('Opening manual…')">View</button></div></div>
+      <div class="di"><div class="dic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div><div class="dn">Cummins ISX12 Service Manual</div><div class="dm">PDF · 512 pages · 44.1 MB</div></div><div class="dir"><button class="btn bgh bsm" onclick="tst('Opening manual…')">View</button></div></div>
+    </div>
+    <div>
+      <div style="font-size:var(--xs);text-transform:uppercase;letter-spacing:.06em;color:var(--txm);margin-bottom:var(--s3)">Recent Service Receipts</div>
+      <div class="di"><div class="dic" style="background:var(--okhl);color:var(--ok)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div><div><div class="dn">Road Runner Tire — Invoice #4418</div><div class="dm">Jun 12, 2026 · Tire Rotation · $180</div></div><div class="dir"><span class="bge bg-g">Receipt</span></div></div>
+      <div class="di"><div class="dic" style="background:var(--okhl);color:var(--ok)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div><div><div class="dn">Tiffin Service Center — WO #4881</div><div class="dm">Mar 28, 2026 · Leveling System · $340</div></div><div class="dir"><span class="bge bg-g">Receipt</span></div></div>
+      <div class="di"><div class="dic" style="background:var(--okhl);color:var(--ok)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div><div><div class="dn">Cummins RV Care Nashville — INV-0219</div><div class="dm">Oct 18, 2025 · Engine Oil Change · $420</div></div><div class="dir"><span class="bge bg-g">Receipt</span></div></div>
+      <div style="font-size:var(--xs);text-transform:uppercase;letter-spacing:.06em;color:var(--txm);margin:var(--s5) 0 var(--s3)">Open Recall Remediation</div>
+      <div class="di" style="border-color:var(--er);background:var(--erhl)"><div class="dic" style="background:var(--erhl);color:var(--er)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div><div class="dn" style="color:var(--er)">NHTSA #22V-547 — Awaiting Remedy</div><div class="dm">Air Brake System · Upload dealer invoice after repair</div></div><div class="dir"><button class="btn bss bsm" onclick="tst('Upload receipt to close recall')">Upload</button></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- RECALLS -->
+<div class="pg" id="p-rec">
+  <div style="margin-bottom:var(--s6)"><h1 style="font-size:var(--xl);font-family:var(--fd);font-style:italic">Recalls &amp; Safety</h1><p style="font-size:var(--xs);color:var(--txm);margin-top:var(--s1)">Auto-synced with NHTSA database · Last checked: Jun 28, 2026 at 8:14 AM</p></div>
+  <div class="g2">
+    <div>
+      <div class="card" style="border-color:var(--er);margin-bottom:var(--s4)">
+        <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)">
+          <div style="width:40px;height:40px;background:var(--erhl);border-radius:var(--rmd);display:flex;align-items:center;justify-content:center;color:var(--er)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <div><div style="font-size:var(--sm);font-weight:600;color:var(--er)">Open Recall</div><div style="font-size:var(--xs);color:var(--txm)">Action required</div></div>
+          <span class="bge bg-r" style="margin-left:auto">Unresolved</span>
+        </div>
+        <div class="sg">
+          <div class="sr2"><span class="sk">Campaign #</span><span class="sv">22V-547</span></div>
+          <div class="sr2"><span class="sk">Issued</span><span class="sv">Sep 14, 2022</span></div>
+          <div class="sr2"><span class="sk">Component</span><span class="sv">Air Brake System</span></div>
+          <div class="sr2"><span class="sk">Chassis Mfr</span><span class="sv">Freightliner</span></div>
+        </div>
+        <div style="margin-top:var(--s4);padding:var(--s3);background:var(--suro);border-radius:var(--rmd)"><div style="font-size:var(--xs);font-weight:600;margin-bottom:var(--s2)">Risk</div><div style="font-size:var(--xs);color:var(--txm);line-height:1.7">Spring brake actuator may crack, causing air leak. Reduced braking increases crash risk.</div></div>
+        <div style="margin-top:var(--s3);padding:var(--s3);background:var(--okhl);border-radius:var(--rmd)"><div style="font-size:var(--xs);font-weight:600;color:var(--ok);margin-bottom:var(--s2)">Remedy Available — Free at Dealer</div><div style="font-size:var(--xs);color:var(--txm);line-height:1.7">Freightliner/Cummins dealers will inspect and replace brake actuators at no charge.</div></div>
+        <div style="display:flex;gap:var(--s3);margin-top:var(--s4)"><button class="btn bp bsm" onclick="tst('Finding nearest Freightliner dealer…')">Find Nearest Dealer</button><button class="btn bss bsm" onclick="tst('Mark resolved — upload invoice to confirm')">Mark Resolved</button></div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:var(--s4)">
+        <div class="ch"><div class="ct">Resolved Recalls (2)</div></div>
+        <div style="display:flex;flex-direction:column;gap:var(--s3)">
+          <div style="padding:var(--s3);background:var(--suro);border-radius:var(--rmd);display:flex;align-items:center;gap:var(--s3)"><span style="color:var(--ok)">✓</span><div><div style="font-size:var(--sm);font-weight:500">19V-561 · Cummins Fuel System</div><div style="font-size:var(--xs);color:var(--txm)">Resolved Oct 2021 · Invoice on file</div></div><span class="bge bg-g" style="margin-left:auto">Closed</span></div>
+          <div style="padding:var(--s3);background:var(--suro);border-radius:var(--rmd);display:flex;align-items:center;gap:var(--s3)"><span style="color:var(--ok)">✓</span><div><div style="font-size:var(--sm);font-weight:500">20V-225 · Allison Transmission TCM</div><div style="font-size:var(--xs);color:var(--txm)">Resolved Feb 2022 · Invoice on file</div></div><span class="bge bg-g" style="margin-left:auto">Closed</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">Technical Service Bulletins</div><span style="font-size:var(--xs);color:var(--txm)">Non-recall notices</span></div>
+        <div>
+          <div style="padding:var(--s3) 0;border-bottom:1px solid var(--div)"><div style="font-size:var(--sm)">TSB-2019-04: Slideout Adjustment Procedure</div><div style="font-size:var(--xs);color:var(--txm);margin-top:2px">Issued by Tiffin · Affects all 2019–2021 Allegro Bus</div></div>
+          <div style="padding:var(--s3) 0;border-bottom:1px solid var(--div)"><div style="font-size:var(--sm)">TSB-CUMMINS-8A: ISX Coolant Hose Inspection</div><div style="font-size:var(--xs);color:var(--txm);margin-top:2px">Issued by Cummins · 2016–2020 ISX12 engines</div></div>
+          <div style="padding:var(--s3) 0"><div style="font-size:var(--sm)">TSB-HWH-1102: Leveling System Firmware Update</div><div style="font-size:var(--xs);color:var(--txm);margin-top:2px">Issued by HWH Corp · Update recommended</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ENCYCLOPEDIA BROWSE -->
+<div class="pg" id="p-enc">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s6)">
+    <div><h1 style="font-size:var(--xl);font-family:var(--fd);font-style:italic">RV Encyclopedia</h1><p style="font-size:var(--xs);color:var(--txm);margin-top:var(--s1)">Manufacturer-seeded specs, known issues &amp; community mods for every RV ever built</p></div>
+    <div class="sbar" style="width:300px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search make, model, year…"></div>
+  </div>
+  <div class="tabs"><div class="tab act">Class A Diesel</div><div class="tab">Class A Gas</div><div class="tab">Class C</div><div class="tab">Class B / Van</div><div class="tab">5th Wheel</div><div class="tab">Travel Trailer</div></div>
+  <div class="g3">
+    <div class="ec" onclick="sp('edet')"><div class="ec-img">🚌</div><div class="ec-bd"><div class="ec-mk">Tiffin</div><div class="ec-mo">Allegro Bus 45OPP</div><div class="ec-mt"><span class="bge bg-b">2019–2022</span><span class="bge bg-n">Class A Diesel</span><span class="bge bg-g">Full Specs ✓</span></div><div style="font-size:var(--xs);color:var(--txm);margin-top:var(--s3)">214 mods · 38 known issues · 3 recalls</div></div></div>
+    <div class="ec" onclick="tst('Newmar Dutch Star — loading…')"><div class="ec-img">🚌</div><div class="ec-bd"><div class="ec-mk">Newmar</div><div class="ec-mo">Dutch Star 4081</div><div class="ec-mt"><span class="bge bg-b">2018–2023</span><span class="bge bg-n">Class A Diesel</span><span class="bge bg-g">Full Specs ✓</span></div><div style="font-size:var(--xs);color:var(--txm);margin-top:var(--s3)">187 mods · 29 known issues · 1 recall</div></div></div>
+    <div class="ec" onclick="tst('Entegra Anthem — loading…')"><div class="ec-img">🚌</div><div class="ec-bd"><div class="ec-mk">Entegra</div><div class="ec-mo">Anthem 45RBQ</div><div class="ec-mt"><span class="bge bg-b">2020–2024</span><span class="bge bg-n">Class A Diesel</span><span class="bge bg-o">Partial Specs</span></div><div style="font-size:var(--xs);color:var(--txm);margin-top:var(--s3)">142 mods · 21 known issues · 0 recalls</div></div></div>
+    <div class="ec" onclick="tst('Fleetwood Bounder — loading…')"><div class="ec-img">🚌</div><div class="ec-bd"><div class="ec-mk">Fleetwood</div><div class="ec-mo">Bounder 36H</div><div class="ec-mt"><span class="bge bg-b">2015–2022</span><span class="bge bg-n">Class A Gas</span><span class="bge bg-g">Full Specs ✓</span></div><div style="font-size:var(--xs);color:var(--txm);margin-top:var(--s3)">310 mods · 44 known issues · 2 recalls</div></div></div>
+    <div class="ec" onclick="tst('Winnebago Forza — loading…')"><div class="ec-img">🚌</div><div class="ec-bd"><div class="ec-mk">Winnebago</div><div class="ec-mo">Forza 36H</div><div class="ec-mt"><span class="bge bg-b">2016–2023</span><span class="bge bg-n">Class A Diesel</span><span class="bge bg-g">Full Specs ✓</span></div><div style="font-size:var(--xs);color:var(--txm);margin-top:var(--s3)">98 mods · 17 known issues · 1 recall</div></div></div>
+    <div class="ec" onclick="tst('Thor Palazzo — loading…')"><div class="ec-img">🚌</div><div class="ec-bd"><div class="ec-mk">Thor Motor Coach</div><div class="ec-mo">Palazzo 36.3</div><div class="ec-mt"><span class="bge bg-b">2014–2021</span><span class="bge bg-n">Class A Diesel</span><span class="bge bg-o">Partial Specs</span></div><div style="font-size:var(--xs);color:var(--txm);margin-top:var(--s3)">122 mods · 33 known issues · 2 recalls</div></div></div>
+  </div>
+</div>
+
+<!-- ENCYCLOPEDIA DETAIL -->
+<div class="pg" id="p-edet">
+  <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s5)">
+    <button class="btn bgh bsm" onclick="sp('enc')">← Encyclopedia</button>
+    <span style="color:var(--txf)">/</span>
+    <span style="font-size:var(--xs);color:var(--txm)">Tiffin / Allegro Bus / 45OPP</span>
+  </div>
+  <div class="wh">
+    <div class="whb"><div class="whr">2019–2022 Tiffin Allegro Bus 45OPP</div></div>
+    <div class="whbd"><div class="whm">
+      <div><div class="wml">Class</div><div class="wmv">Class A Diesel Pusher</div></div>
+      <div><div class="wml">Chassis</div><div class="wmv">Freightliner XCS</div></div>
+      <div><div class="wml">Engine</div><div class="wmv">Cummins ISX12 · 450 HP</div></div>
+      <div><div class="wml">Length</div><div class="wmv">45 ft</div></div>
+      <div><div class="wml">GVWR</div><div class="wmv">54,000 lbs</div></div>
+      <div><div class="wml">Slideouts</div><div class="wmv">3 (HWH Hydraulic)</div></div>
+      <div><div class="wml">Contributors</div><div class="wmv">47 owners</div></div>
+      <div><div class="wml">Completeness</div><div class="wmv" style="color:var(--ok)">94% ✓</div></div>
+    </div></div>
+  </div>
+  <div class="tabs"><div class="tab act">Specifications</div><div class="tab" onclick="tst('38 known issues for this model…')">Known Issues (38)</div><div class="tab" onclick="tst('214 community mods for this model…')">Modifications (214)</div><div class="tab" onclick="sp('rec')">Recalls (3)</div><div class="tab" onclick="tst('Factory options &amp; packages…')">Options &amp; Packages</div></div>
+  <div class="g2">
+    <div>
+      <div class="card" style="margin-bottom:var(--s4)">
+        <div class="ch"><div class="ct">Chassis &amp; Powertrain</div></div>
+        <div class="sg">
+          <div class="sr2"><span class="sk">Engine</span><span class="sv">Cummins ISX12</span></div><div class="sr2"><span class="sk">Horsepower</span><span class="sv">450 HP</span></div>
+          <div class="sr2"><span class="sk">Torque</span><span class="sv">1,450 lb-ft</span></div><div class="sr2"><span class="sk">Transmission</span><span class="sv">Allison 3000 MH</span></div>
+          <div class="sr2"><span class="sk">Fuel Capacity</span><span class="sv">150 gallons</span></div><div class="sr2"><span class="sk">DEF Tank</span><span class="sv">15 gallons</span></div>
+          <div class="sr2"><span class="sk">Brakes</span><span class="sv">Full Air + ABS</span></div><div class="sr2"><span class="sk">Suspension</span><span class="sv">4-Point Air Ride</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">Electrical &amp; Power</div></div>
+        <div class="sg">
+          <div class="sr2"><span class="sk">Inverter</span><span class="sv">Xantrex SW3012</span></div><div class="sr2"><span class="sk">Generator</span><span class="sv">Onan 10kW Diesel</span></div>
+          <div class="sr2"><span class="sk">House Batteries</span><span class="sv">4× AGM 6V</span></div><div class="sr2"><span class="sk">Shore Power</span><span class="sv">50A dual service</span></div>
+          <div class="sr2"><span class="sk">Factory Solar</span><span class="sv">None (popular mod)</span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:var(--s4)">
+        <div class="ch"><div class="ct">Dimensions &amp; Capacity</div></div>
+        <div class="sg">
+          <div class="sr2"><span class="sk">Overall Length</span><span class="sv">45 ft 1 in</span></div><div class="sr2"><span class="sk">Interior Height</span><span class="sv">84 in</span></div>
+          <div class="sr2"><span class="sk">Exterior Height</span><span class="sv">12 ft 9 in</span></div><div class="sr2"><span class="sk">Fresh Water</span><span class="sv">100 gallons</span></div>
+          <div class="sr2"><span class="sk">Gray Water</span><span class="sv">55 gallons</span></div><div class="sr2"><span class="sk">Black Water</span><span class="sv">50 gallons</span></div>
+          <div class="sr2"><span class="sk">GVWR</span><span class="sv">54,000 lbs</span></div><div class="sr2"><span class="sk">Dry Weight</span><span class="sv">~40,500 lbs</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">Top Community Mods</div><span style="font-size:var(--xs);color:var(--txm);cursor:pointer" onclick="tst('All 214 mods loading…')">See all →</span></div>
+        <div class="mc2"><div class="mc2h"><div><div class="mc2t">Lithionics 800Ah LiFePO4 Battery Upgrade</div><div class="mc2m">Electrical · ~$6,200 · Requires tech</div></div><span class="bge bg-g">#1 Mod</span></div><div class="vr"><button class="vb uv" onclick="tst('143 owners found this helpful')">▲ 143</button><span style="font-size:var(--xs);color:var(--txm)">Completed by 38 owners</span></div></div>
+        <div class="mc2"><div class="mc2h"><div><div class="mc2t">Victron 600W Solar Package — Roof Mount</div><div class="mc2m">Solar · ~$3,800 · DIY friendly</div></div></div><div class="vr"><button class="vb" onclick="tst('Upvoted — 90 now')">▲ 89</button><span style="font-size:var(--xs);color:var(--txm)">Completed by 24 owners</span></div></div>
+        <div class="mc2"><div class="mc2h"><div><div class="mc2t">Winegard ConnecT 2.0 WiFi Extender</div><div class="mc2m">Tech/Connectivity · ~$350 · DIY easy</div></div></div><div class="vr"><button class="vb" onclick="tst('Upvoted — 65 now')">▲ 64</button><span style="font-size:var(--xs);color:var(--txm)">Completed by 51 owners</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div></div></div></div>
+
+<!-- LOG SERVICE MODAL -->
+<div class="mo" id="lm">
+  <div class="md">
+    <div class="mh2"><div class="mt2">Log Service Event</div><button class="mcl" onclick="cm('lm')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="mbd">
+      <div class="fg"><label class="fl2">Service Category</label><select class="fi"><option>Engine / Drivetrain</option><option>Chassis / Brakes / Tires</option><option>Roof / Exterior Seals</option><option>Electrical / Solar / Batteries</option><option>Plumbing / Water Systems</option><option>HVAC / Climate Control</option><option>Slides / Leveling System</option><option>Appliances / Interior</option><option>Generator</option><option>Safety / Recall Remedy</option></select></div>
+      <div class="fg"><label class="fl2">Service Description</label><input type="text" class="fi" placeholder="e.g. Engine oil &amp; filter change — Rotella T6 15W-40"></div>
+      <div class="fr"><div class="fg"><label class="fl2">Service Date</label><input type="date" class="fi" value="2026-06-28"></div><div class="fg"><label class="fl2">Odometer (miles)</label><input type="number" class="fi" placeholder="82,451"></div></div>
+      <div class="fr"><div class="fg"><label class="fl2">Generator Hours</label><input type="number" class="fi" placeholder="1,204"></div><div class="fg"><label class="fl2">Total Cost ($)</label><input type="number" class="fi" placeholder="0.00"></div></div>
+      <div class="fg"><label class="fl2">Service Provider</label><input type="text" class="fi" placeholder="Shop name, city — or Self-service"></div>
+      <div class="fg"><label class="fl2">Notes</label><textarea class="fi" rows="3" placeholder="Parts used, observations, next steps…" style="resize:vertical"></textarea></div>
+      <div class="fg"><label class="fl2">Attach Receipt / Photo</label><div style="border:2px dashed var(--bor);border-radius:var(--rmd);padding:var(--s5);text-align:center;cursor:pointer;color:var(--txm);font-size:var(--sm)" onclick="tst('File upload — next build')">📎 Click to attach or drag &amp; drop PDF / JPG</div></div>
+    </div>
+    <div class="mft"><button class="btn bss" onclick="cm('lm')">Cancel</button><button class="btn bp" onclick="sv()">Save Service Record</button></div>
+  </div>
+</div>
+
+<div class="tst" id="toast"></div>
+<script>
+const pts={dash:'Dashboard',maint:'Maintenance Log',docs:'Document Vault',rec:'Recalls & Safety',enc:'RV Encyclopedia',edet:'Tiffin Allegro Bus 45OPP'};
+function sp(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('act'));
+  var el=document.getElementById('p-'+id);if(el)el.classList.add('act');
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('act'));
+  var ni=document.getElementById('n-'+id);if(ni)ni.classList.add('act');
+  var tb=document.getElementById('ptb');if(tb)tb.textContent=pts[id]||'RVTRAX';
+  window.scrollTo(0,0);
+}
+function go(){document.getElementById('land').style.display='none';document.getElementById('app').style.display='block';sp('dash');}
+function om(id){document.getElementById(id).classList.add('open')}
+function cm(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.mo').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('open');});});
+function sv(){cm('lm');tst('Service record saved ✓');}
+var tt;
+function tst(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show');},3000);}
+document.querySelectorAll('.tabs').forEach(function(g){g.querySelectorAll('.tab').forEach(function(tab){tab.addEventListener('click',function(){g.querySelectorAll('.tab').forEach(function(t){t.classList.remove('act');});tab.classList.add('act');});});});
+function toggleTheme(){
+  var h=document.documentElement,c=h.getAttribute('data-theme')||'dark',n=c==='dark'?'light':'dark';
+  h.setAttribute('data-theme',n);
+  var ic=document.getElementById('thico');
+  if(ic)ic.innerHTML=n==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')document.querySelectorAll('.mo.open').forEach(function(m){m.classList.remove('open');});});
+</script>
+</body>
+</html>
